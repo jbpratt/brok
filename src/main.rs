@@ -345,9 +345,7 @@ impl App {
                 .filter(|c| c.is_alphanumeric() || *c == '-' || *c == '_')
                 .collect::<String>();
 
-            println!(
-                "[DEBUG] Extracted location: '{location}', cleaned: '{clean_location}'"
-            );
+            println!("[DEBUG] Extracted location: '{location}', cleaned: '{clean_location}'");
 
             Some(ToolCall::Weather {
                 location: clean_location,
@@ -778,7 +776,11 @@ async fn main() {
     // Create user update channel
     let (user_update_tx, user_update_rx) = mpsc::unbounded_channel();
 
-    let app = Arc::new(App::new(inference_tx, user_update_tx, args.api_host.clone()));
+    let app = Arc::new(App::new(
+        inference_tx,
+        user_update_tx,
+        args.api_host.clone(),
+    ));
 
     // Load available users
     if let Err(e) = app.load_available_users().await {
